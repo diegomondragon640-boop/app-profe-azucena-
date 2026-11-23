@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portal de Evidencia</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--c1:#111010;--c2:#0052CC;--white:#FFFFFF;--cream:#F9F7F1;--dark:#0e0d0d;--ok:#1E9E4A;--rev:#E0B000;--pend:#E8590C;--page:#dfe6ea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#10181c}}
+:root[data-theme="dark"]{--page:#10181c}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--page);font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-weight:400;color:var(--dark)}
+#app{max-width:430px;height:100%;margin:0 auto;display:flex;flex-direction:column;background:linear-gradient(135deg,var(--c1),var(--c2));overflow:hidden}
+@media (min-width:500px){#app{height:min(100%,860px);margin:auto;border-radius:28px;box-shadow:0 10px 40px rgba(0,0,0,.3)}body{display:flex;align-items:center}}
+button{font:inherit;cursor:pointer;border:0}
+button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within{outline:3px solid #7c4dff;outline-offset:2px}
+.head{padding:14px 18px 10px;text-align:center;position:relative;color:#bbb}
+.head h1{margin:6px 0 0;font-size:26px;font-weight:700;line-height:1.15}
+.head.home{display:flex;align-items:center;gap:14px;text-align:left;color:var(--white)}
+.head.home h1{margin:0;font-size:24px;letter-spacing:.04em}
+.head.home h1 span{display:block;font-weight:400;letter-spacing:.3em;font-size:18px}
+.back{position:absolute;left:14px;top:14px;background:none;color:#FFFFFF;padding:4px;line-height:0}
+.logo{width:64px;height:64px;background:var(--cream);border-radius:12px;padding:4px}
+.body{flex:1;overflow:auto;background:var(--cream);border-radius:28px 28px 0 0;padding:16px}
+.panel{background:rgba(255,255,255,.55);border-radius:14px;padding:12px;margin-bottom:14px}
+.panel h2{margin:0 0 8px;font-size:15px;font-weight:700}
+label.f{display:block;font-size:12px;font-weight:500;margin:8px 0 4px}
+.row{display:flex;gap:8px;align-items:center}
+input,select{width:100%;font:inherit;font-size:14px;padding:11px 10px;border:1px solid #c9c9c9;border-radius:4px;background:var(--white);color:var(--dark)}
+input[readonly]{color:#555}
+.pen{background:none;padding:4px;line-height:0;color:var(--dark)}
+.foot{padding:12px 16px 16px;background:var(--cream)}
+.btn{display:block;width:100%;background:#0052CC;color:var(--white);font-weight:700;font-size:15px;padding:14px;border-radius:4px}
+.btn.pill{border-radius:999px}
+.btn.sec{background:transparent;color:var(--dark);border:2px solid var(--dark);margin-top:8px}
+.auth{flex:1;overflow:auto;padding:8px 22px 22px;color:var(--white)}
+.auth .head{color:var(--dark)}
+.auth label.f{color:#fff;font-size:11px;letter-spacing:.08em;text-transform:none}
+.auth .btn{margin-top:18px}
+.tabs{display:flex;gap:6px;margin:6px 0 4px}
+.tabs button{flex:1;padding:10px;border-radius:999px;background:rgba(255,255,255,.25);color:#fff;font-weight:500}
+.tabs button[aria-selected=true]{background:var(--white);color:var(--c2);font-weight:700}
+.err{background:#fff;color:#b00020;border-radius:4px;padding:8px 10px;font-size:13px;margin-top:10px}
+.greet{margin:4px 0 14px}.greet b{font-size:22px;display:block}.greet small{font-size:13px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{border-radius:24px;padding:14px;text-align:left;color:var(--dark);display:flex;flex-direction:column;gap:6px;min-height:120px}
+.card.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:12px;min-height:0}
+.card h3{margin:0;font-size:15px;font-weight:700}.card p{margin:0;font-size:11px}
+.ico{width:52px;height:52px;border-radius:12px;background:var(--dark);color:#fff;display:grid;place-items:center;flex:none}
+.g1{background:#D3E8DC}.g2{background:#D5E2EC}.g3{background:#DCE4EE}.g4{background:#DCE4EE}
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.doc{background:var(--cream);border:1px solid #bbb;border-radius:12px;padding:10px 6px;text-align:center;font-size:12px}
+.doc .tools{display:flex;justify-content:center;gap:10px;margin-bottom:6px}
+.doc .tools label{cursor:pointer;line-height:0;padding:4px;border-radius:6px}
+.doc input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.doc .name{font-weight:500;min-height:30px;display:flex;align-items:center;justify-content:center}
+.doc .up{background:var(--dark);color:#fff;font-weight:700;font-size:12px;padding:4px 14px;border-radius:4px;margin:4px 0}
+.doc .up:disabled{opacity:.35;cursor:not-allowed}
+.st{font-size:11px;font-weight:500}
+.st.ok{color:var(--ok)}.st.rev{color:#9a7b00}.st.pend{color:var(--pend)}
+.track{display:flex;align-items:center;justify-content:space-between;background:var(--cream);border-radius:10px;padding:14px;margin-bottom:10px;font-weight:700;font-size:15px}
+.track .s{display:flex;flex-direction:column;align-items:center;font-size:12px;font-weight:500;gap:2px;min-width:80px}
+.track .s.ok{color:var(--ok)}.track .s.rev{color:#9a7b00}.track .s.pend{color:var(--pend)}
+.link{background:none;text-decoration:underline;font-size:13px;color:var(--dark);display:block;margin:6px auto 0}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--dark);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;z-index:5;max-width:90%}
+@media (prefers-reduced-motion:no-preference){.toast{animation:in .2s ease-out}@keyframes in{from{opacity:0;transform:translate(-50%,8px)}}}
+</style>
+</head>
+<body>
+<div id="app" aria-live="polite"></div>
+<script>
+const KEY='pe_state_v1';
+let S={users:[],me:null,saved:false,datosOk:false,datos:{nombre:'',tel:'',correo:'',curp:''},nivel:'Ingeniería',exp:{empresa:'',puesto:'',periodo:''},docs:{},screen:'auth',tab:'login',err:''};
+try{const r=localStorage.getItem(KEY);if(r){S=Object.assign(S,JSON.parse(r))}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const P={
+ pen:'<path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>',
+ cam:'<path d="M9 3L7.2 5H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2h-3.2L15 3H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2.2a2.8 2.8 0 100 5.6 2.8 2.8 0 000-5.6z"/>',
+ pdf:'<path d="M20 6h-8l-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2z"/>',
+ user:'<path d="M12 12a4.5 4.5 0 100-9 4.5 4.5 0 000 9zm0 2c-3.3 0-9 1.7-9 5v2h18v-2c0-3.3-5.7-5-9-5z"/>',
+ cap:'<path d="M12 3L1 9l11 6 9-4.9V17h2V9L12 3zM5 13.2v4L12 21l7-3.8v-4L12 17l-7-3.8z"/>',
+ bag:'<path d="M20 7h-4V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM10 5h4v2h-4V5z"/>',
+ cloud:'<path d="M19.4 10A7.5 7.5 0 005 8.7 5.5 5.5 0 006 20h13a4.5 4.5 0 00.4-10zM10.6 17l-3-3 1.4-1.4 1.6 1.6 4-4 1.4 1.4-5.4 5.4z"/>',
+ back:'<path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20v-2z"/>'
+};
+const ic=(n,s=24)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${P[n]}</svg>`;
+const logo=`<svg class="logo" viewBox="0 0 64 64" role="img" aria-label="Logotipo PE"><path d="M10 56V30a22 22 0 0144 0v26" fill="none" stroke="#2c6b73" stroke-width="5"/><rect x="22" y="22" width="20" height="24" rx="2" fill="#fff" stroke="#2c6b73" stroke-width="2"/><circle cx="32" cy="30" r="3" fill="#2c6b73"/><path d="M26 38h12M26 42h8" stroke="#2c6b73" stroke-width="2"/><text x="32" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#2c6b73" font-family="Montserrat,Arial,sans-serif">PE</text></svg>`;
+const stIcon={ok:'<svg width="34" height="34" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1E9E4A"/><path d="M7 12.5l3.5 3.5L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ rev:'<svg width="34" height="34" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#E0B000" stroke-width="2.4"/><path d="M12 6.5V12l3.5 2" fill="none" stroke="#E0B000" stroke-width="2.4" stroke-linecap="round"/></svg>',
+ pend:'<svg width="34" height="34" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2z" fill="#E8590C"/><path d="M12 9v6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="18" r="1.4" fill="#fff"/></svg>'};
+const stTxt={ok:'Aprobado',rev:'En revisión',pend:'Pendiente'};
+
+const head=(t,back)=>`<div class="head">${back?`<button class="back" data-act="go" data-to="home" aria-label="Volver">${ic('back',28)}</button>`:''}${logo}<h1>${t}</h1></div>`;
+const field=(path,label,val,opts={})=>`<label class="f" for="${path}">${label}</label><div class="row"><input id="${path}" data-k="${path}" value="${esc(val)}" ${opts.type?`type="${opts.type}"`:''} ${opts.ph?`placeholder="${opts.ph}"`:''} ${opts.edit?'readonly':''} ${opts.auto?`autocomplete="${opts.auto}"`:''}>${opts.edit?`<button class="pen" data-act="edit" data-for="${path}" aria-label="Editar ${label}">${ic('pen')}</button>`:''}</div>`;
+const docStatus=d=>!d?['pend','No cargado']:d.status==='sel'?['pend','Sin enviar']:d.status==='ok'?['ok','Aprobado']:['rev','En revisión'];
+const doc=(k,label)=>{const d=S.docs[k],[c,t]=docStatus(d);return `<div class="doc"><div class="tools"><label title="Cámara" aria-label="Tomar foto: ${label}">${ic('cam',30)}<input type="file" accept="image/*" capture="environment" data-doc="${k}"></label><label title="Archivo PDF" aria-label="Adjuntar PDF: ${label}">${ic('pdf',30)}<input type="file" accept="application/pdf,image/*" data-doc="${k}"></label></div><div class="name">${d?esc(d.name):label}</div><button class="up" data-act="up" data-k="${k}" ${d&&d.status==='sel'?'':'disabled'}>Subir</button><div class="st ${c}">Estado: ${t}</div></div>`};
+const grp=ks=>{const ss=ks.map(k=>S.docs[k]&&S.docs[k].status);if(ks.every((k,i)=>ss[i]==='ok'))return'ok';return ss.some(s=>s==='rev'||s==='ok')?'rev':'pend'};
+
+const V={
+auth(){const reg=S.tab==='reg';return `<div class="auth">${head(reg?'Crea una cuenta nueva':'Ingresa')}
+<div class="tabs" role="tablist"><button role="tab" aria-selected="${!reg}" data-act="tab" data-t="login">Iniciar sesión</button><button role="tab" aria-selected="${reg}" data-act="tab" data-t="reg">Registrarme</button></div>
+${reg?field('a.nombre','Nombre','',{auto:'name',ph:'Nombre completo'}):''}
+${field('a.email','Correo electrónico','',{type:'email',auto:'email',ph:'correo@ejemplo.com'})}
+${field('a.pass','Contraseña','',{type:'password',auto:reg?'new-password':'current-password',ph:'Mínimo 8 caracteres'})}
+${reg?field('a.fecha','Fecha de nacimiento','',{type:'date'}):''}
+${S.err?`<div class="err" role="alert">${esc(S.err)}</div>`:''}
+<button class="btn" data-act="${reg?'register':'login'}">${reg?'Crear cuenta':'Ingresar'}</button></div>`},
+home(){const n=S.me?S.me.nombre:'';return `<div class="head home">${logo}<h1>PORTAL DE<span>EVIDENCIA</span></h1></div>
+<div class="body"><div class="greet"><b>  Bienvenidos </b><span>${esc(n.toUpperCase())}</span><br><small>${esc(S.me?S.me.email:'')}</small></div>
+<div class="cards">
+<button class="card wide g1" data-act="go" data-to="datos"><span class="ico">${ic('user',34)}</span><span><h3>Datos personales e identificación</h3><p>Ver y editar nombre, teléfono, correo, INE y CURP</p></span></button>
+<button class="card wide g2" data-act="go" data-to="acad"><span class="ico">${ic('cap',34)}</span><span><h3>Información académica</h3><p>Certificados, título y carta pasante (Prepa, TSU, Ing.)</p></span></button>
+<button class="card g3" data-act="go" data-to="exp"><span class="ico">${ic('bag',30)}</span><h3>Trayectoria profecional</h3><p>Historial de empleos, contratos, cartas y portafolio</p></button>
+<button class="card g4" data-act="go" data-to="seg"><span class="ico">${ic('cloud',30)}</span><h3>Seguimiento de cargas</h3><p>Estado de verificación y fechas de carga</p></button>
+</div></div><div class="foot"><button class="btn sec" data-act="logout" style="margin:0">Cerrar sesión</button></div>`},
+datos(){const d=S.datos;return `${head('Mis Datos',1)}<div class="body">
+<div class="panel"><h2>Datos personales</h2>${field('datos.nombre','Nombre completo',d.nombre,{edit:1})}${field('datos.tel','Teléfono',d.tel,{edit:1,type:'tel',ph:'55 1234 5678'})}${field('datos.correo','Correo electrónico',d.correo,{edit:1,type:'email'})}</div>
+<div class="panel"><h2>Identificaciones</h2>${field('datos.curp','CURP',d.curp,{edit:1,ph:'18 caracteres'})}<label class="f">INE (Identificación Nacional de Elector)</label><div class="docs">${doc('ineF','INE (Frente)')}${doc('ineR','INE (Reverso)')}</div></div>
+<button class="link" data-act="pass">Cambiar contraseña</button></div>
+<div class="foot"><button class="btn" data-act="saveDatos">Guardar Cambios</button></div>`},
+acad(){return `${head('Información Académica',1)}<div class="body"><div class="panel"><label class="f" for="nivel">Nivel académico (Prepa, TSU, Ing.)</label><select id="nivel" data-k="nivel">${['Preparatoria','TSU','Ingeniería',"posgrado"].map(o=>`<option${S.nivel===o?' selected':''}>${o}</option>`).join('')}</select></div>
+<div class="panel"><div class="docs">${doc('cert','Certificado de Estudios')}${doc('tit','Título Profesional')}${doc('carta','Carta Pasante')}</div></div></div>
+<div class="foot"><button class="btn pill" data-act="go" data-to="exp">Guardar y Continuar</button></div>`},
+exp(){const e=S.exp;return `${head('Experiencia Laboral',1)}<div class="body"><div class="panel"><h2>Datos de experiencia</h2>${field('exp.empresa','Empresa',e.empresa,{edit:1,ph:'Ej: Empresa S.A. de C.V.'})}${field('exp.puesto','Puesto',e.puesto,{edit:1,ph:'Ej: Ingeniero de Software'})}${field('exp.periodo','Periodo',e.periodo,{edit:1,ph:'Ej: Enero 2020 - Diciembre 2023'})}</div>
+<div class="panel"><h2>Documentos de evidencia</h2><div class="docs">${doc('const','Contrato / Constancia Laboral')}${doc('port','Portafolio / Evidencias')}</div></div></div>
+<div class="foot"><button class="btn pill" data-act="go" data-to="seg">Guardar y Continuar</button></div>`},
+seg(){const dp=!S.saved?'pend':S.datosOk?'ok':'rev';const rows=[['Datos Personales',dp],['INE',grp(['ineF','ineR'])],['Certificado de Estudios',grp(['cert'])],['Título Profesional',grp(['tit'])],['Carta Pasante',grp(['carta'])],['Experiencia Laboral',grp(['const','port'])]];
+return `${head('Seguimiento de Cargas',1)}<div class="body"><div class="panel"><h2>Estado de tus cargas</h2>${rows.map(([n,s])=>`<div class="track"><span>${n}</span><span class="s ${s}">${stIcon[s]}${stTxt[s]}</span></div>`).join('')}</div>
+<button class="btn sec" data-act="validate">Simular validación del administrador</button></div>
+<div class="foot"><button class="btn" data-act="go" data-to="home">Volver al Inicio</button></div>`}
+};
+function render(){document.getElementById('app').innerHTML=V[S.screen]();const b=document.querySelector('.body,.auth');if(b)b.scrollTop=0;save()}
+function toast(m){const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+const A={};
+function setPath(p,v){if(p.startsWith('a.')){A[p.slice(2)]=v;return}const [a,b]=p.split('.');if(b)S[a][b]=v;else S[a]=v}
+document.addEventListener('input',e=>{const k=e.target.dataset.k;if(k){setPath(k,e.target.value);if(!k.startsWith('a.'))save()}});
+document.addEventListener('change',e=>{const el=e.target,k=el.dataset.doc;if(k&&el.files[0]){S.docs[k]={name:el.files[0].name,status:'sel'};render()}else if(el.dataset.k==='nivel'){save()}});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+ if(a==='go'){S.screen=b.dataset.to;render()}
+ else if(a==='tab'){S.tab=b.dataset.t;S.err='';render()}
+ else if(a==='edit'){const i=document.getElementById(b.dataset.for);i.readOnly=false;i.focus();toast("modo edicion activada")}
+ else if(a==='up'){const d=S.docs[b.dataset.k];if(d){d.status='rev';render();toast('Documento enviado a revisión')}}
+ else if(a==='saveDatos'){if(S.datos.curp && S.datos.curp.length !== 18){toast('La CURP debe tener exactamente 18 caracteres');return}S.saved=true;if(S.me){S.me.nombre=S.datos.nombre||S.me.nombre}render();toast('Tus datos se actualizaron con Exito')}
+ else if(a==='validate'){Object.values(S.docs).forEach(d=>{if(d.status==='rev')d.status='ok'});if(S.saved)S.datosOk=true;render();toast('Documentos en revisión aprobados')}
+ else if(a==='pass'){toast('Función disponible al conectar el servidor')}
+ else if(a==='logout'){S.screen='auth';S.tab='login';S.err='';render()}
+ else if(a==='register'){const n=(A.nombre||'').trim(),m=(A.email||'').trim().toLowerCase(),p=A.pass||'';
+  if(!n||!/^\S+@\S+\.\S+$/.test(m)||p.length<8||!A.fecha){S.err='Completa nombre, un correo válido, contraseña de 8+ caracteres y fecha de nacimiento.';render();return}
+  if(S.users.some(u=>u.email===m)){S.err='Ese correo ya está registrado. Inicia sesión.';render();return}
+  const u={nombre:n,email:m,pass:p,fecha:A.fecha};S.users.push(u);S.me=u;S.datos.nombre=n;S.datos.correo=m;S.err='';S.screen='home';render()}
+ else if(a==='login'){const m=(A.email||'').trim().toLowerCase(),u=S.users.find(x=>x.email===m&&x.pass===(A.pass||''));
+  if(!u){S.err='Correo o contraseña incorrectos. Si no tienes cuenta, regístrate.';render();return}
+  S.me=u;S.err='';S.screen='home';render()}
+});
+if(S.screen!=='auth'&&!S.me)S.screen='auth';
+render();
+</script>
+</body>
+</html>
+
